@@ -31,9 +31,14 @@ class StatisticsMarkupsConfig:
     monthly_analytics: str = "📈 Аналитика за месяц"
 
 
+class TransactionsMarkupsConfig:
+    cancel: str = "❌ Отмена"
+
+
 class MarkupsConfig:
     main_menu: MainMenuMarkupsConfig = MainMenuMarkupsConfig()
     statistics: StatisticsMarkupsConfig = StatisticsMarkupsConfig()
+    transactions: TransactionsMarkupsConfig = TransactionsMarkupsConfig()
 
 
 class CallbacksConfig:
