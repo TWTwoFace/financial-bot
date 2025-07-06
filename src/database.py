@@ -2,7 +2,7 @@ from asyncpg.connection import Connection, connect
 from asyncpg import Record
 import json
 
-from src.config import DB_HOST, DB_PORT, DB_NAME, DB_PASSWORD, DB_USERNAME
+from src.config import *
 
 
 class Database:
@@ -10,13 +10,12 @@ class Database:
 
     async def connect(self):
         self._connection = await connect(
-            database=DB_NAME,
-            host=DB_HOST,
-            port=DB_PORT,
-            user=DB_USERNAME,
-            password=DB_PASSWORD
+            database=config.database.name,
+            host=config.database.host,
+            port=config.database.port,
+            user=config.database.username,
+            password=config.database.password
         )
-
         await self._connection.set_type_codec(
             'json',
             encoder=json.dumps,
