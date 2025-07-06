@@ -1,7 +1,6 @@
 from aiogram import Router, F, types
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
-from aiogram.types import ReplyKeyboardRemove
 
 from src.config import *
 from src.markups.main_menu import main_menu_markup
