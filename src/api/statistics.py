@@ -13,8 +13,10 @@ async def show_balance_and_stats(message: types.Message):
     # TODO: получение баланса пользователя из бд
     user = UserSchema(telegram_id=str(message.from_user.id))
     balance = await StatsRepository.get_balance(user)
+    monthly_balance = await StatsRepository.get_balance_by_month(user)
     await message.answer(
         f"Ваш текущий баланс: **{balance:.2f}**\n\n"
+        f"Баланс за месяц: **{monthly_balance:.2f}**\n\n"
         "Выберите опцию для получения детальной статистики.",
         reply_markup=stats_markup,
         parse_mode="Markdown"

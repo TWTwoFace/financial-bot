@@ -1,3 +1,5 @@
+import datetime
+
 from src.database import database
 from src.schemas.users import UserSchema
 
@@ -6,12 +8,31 @@ class StatsRepository:
     @staticmethod
     async def get_balance(user: UserSchema) -> float:
         try:
-            record = await database.fetchone(f"SELECT COALESCE(SUM(i.value), 0) - COALESCE(SUM(e.value), 0) AS balance "
+            record = await database.fetchone(f"SELECT "
+                                             f"(SELECT COALESCE(SUM(value), 0) FROM incomes WHERE user_id = users.id) -"
+                                             f"(SELECT COALESCE(SUM(value), 0) FROM expenses WHERE user_id = users.id) "
+                                             f"AS balance "
                                              f"FROM users "
-                                             f"LEFT JOIN incomes i ON users.id = i.user_id "
-                                             f"LEFT JOIN expenses e ON users.id = e.user_id "
-                                             f"WHERE users.telegram_id = '{user.telegram_id}' "
-                                             f"GROUP BY users.id")
+                                             f"WHERE users.telegram_id = '{user.telegram_id}'")
+            balance = record['balance']
+            return balance
+        except Exception as e:
+            print(e)
+            return 0
+
+    @staticmethod
+    async def get_balance_by_month(user: UserSchema) -> float:
+        try:
+            current_date = datetime.date.today() + datetime.timedelta(days=1)
+            begin_month_date = datetime.date.today().replace(day=1)
+            record = await database.fetchone(f"SELECT "
+                                             f"(SELECT COALESCE(SUM(value), 0) FROM incomes WHERE user_id = users.id "
+                                             f"AND date BETWEEN '{begin_month_date}' AND '{current_date}') -"
+                                             f"(SELECT COALESCE(SUM(value), 0) FROM expenses WHERE user_id = users.id "
+                                             f"AND date BETWEEN '{begin_month_date}' AND '{current_date}') "
+                                             f"AS balance "
+                                             f"FROM users "
+                                             f"WHERE users.telegram_id = '{user.telegram_id}'")
             balance = record['balance']
             return balance
         except Exception as e:

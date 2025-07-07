@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 
 from src.config import *
 from src.markups.main_menu import main_menu_markup
-from src.markups.transactions import transactions_markup
+from src.markups.transactions import transactions_markup, expense_category_markup, income_category_markup
 from src.repositories.transactions import TransactionsRepository
 from src.repositories.users import UsersRepository
 from src.schemas.transactions import TransactionSchema
@@ -43,8 +43,15 @@ async def process_amount(message: types.Message, state: FSMContext):
 
         await state.update_data(amount=amount)
         await state.set_state(AddTransaction.category)
-        await message.answer("Отлично! Теперь введите категорию (например, 'Продукты', 'Зарплата', 'Транспорт').",
-                             reply_markup=transactions_markup)
+        data = await state.get_data()
+        if data['type'] == 'expense':
+            await message.answer("Отлично! Теперь Выберите категорию расхода\n\n"
+                                 "Или напишите в чат свою категорию:",
+                                 reply_markup=expense_category_markup)
+        else:
+            await message.answer("Отлично! Теперь Выберите категорию дохода\n\n"
+                                 "Или напишите в чат свою категорию:",
+                                 reply_markup=income_category_markup)
     except ValueError:
         await message.answer("Неверный формат. Пожалуйста, введите положительное число (например, 1500 или 99.90).",
                              reply_markup=transactions_markup)

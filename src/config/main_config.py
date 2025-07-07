@@ -30,8 +30,25 @@ class StatisticsMarkupsConfig:
     monthly_analytics: str = "📈 Аналитика за месяц"
 
 
+class ExpenseCategoryMarkupConfig:
+    products: str = "Продукты"
+    transport: str = "Транспорт"
+    housing: str = "Жильё"
+    shops: str = "Покупки"
+    credit: str = "Кредит (ипотека)"
+
+
+class IncomesCategoryMarkupConfig:
+    payment: str = "Зарплата"
+    remittance: str = "Перевод"
+    business: str = "Бизнес"
+    passive: str = "Пассивный доход"
+
+
 class TransactionsMarkupsConfig:
     cancel: str = "❌ Отмена"
+    expenses: ExpenseCategoryMarkupConfig = ExpenseCategoryMarkupConfig()
+    incomes: IncomesCategoryMarkupConfig = IncomesCategoryMarkupConfig()
 
 
 class MarkupsConfig:
