@@ -14,3 +14,12 @@ notifications_markup = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True,
 )
+
+cancel_processing_notifications_markup = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text=config.markups.back)
+        ]
+    ],
+    resize_keyboard=True
+)

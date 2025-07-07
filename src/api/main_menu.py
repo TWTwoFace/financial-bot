@@ -14,7 +14,6 @@ router = Router()
 async def cmd_start(message: types.Message):
     user = UserSchema(telegram_id=str(message.from_user.id))
     user_exists = await UsersRepository.is_user_exists(user)
-    print(user_exists)
     if not user_exists:
         await UsersRepository.add_user(user)
     await message.answer(
