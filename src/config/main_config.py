@@ -22,12 +22,18 @@ class MainMenuMarkupsConfig:
     add_income: str = "💰 Добавить доход"
     statistics: str = "📊 Баланс & Статистика"
     goals: str = "🎯 Цели"
+    notifications: str = "🔔 Уведомления"
     help: str = "ℹ Помощь"
     placeholder: str = "Выберите раздел в меню"
 
 
 class StatisticsMarkupsConfig:
     monthly_analytics: str = "📈 Аналитика за месяц"
+
+
+class NotificationsMarkupsConfig:
+    add_notification: str = "➕ Добавить уведомление"
+    remove_notification: str = "❌ Удалить уведомление"
 
 
 class ExpenseCategoryMarkupConfig:
@@ -55,6 +61,8 @@ class MarkupsConfig:
     main_menu: MainMenuMarkupsConfig = MainMenuMarkupsConfig()
     statistics: StatisticsMarkupsConfig = StatisticsMarkupsConfig()
     transactions: TransactionsMarkupsConfig = TransactionsMarkupsConfig()
+    notifications: NotificationsMarkupsConfig = NotificationsMarkupsConfig()
+    back: str = "◀ Назад"
 
 
 class CallbacksConfig:

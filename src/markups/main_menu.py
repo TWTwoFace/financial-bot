@@ -13,6 +13,9 @@ main_menu_markup = ReplyKeyboardMarkup(
             KeyboardButton(text=config.markups.main_menu.goals)
         ],
         [
+            KeyboardButton(text=config.markups.main_menu.notifications)
+        ],
+        [
             KeyboardButton(text=config.markups.main_menu.help)
         ]
     ],

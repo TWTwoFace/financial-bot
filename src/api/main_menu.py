@@ -1,5 +1,6 @@
 from aiogram import Router, types, F
 from aiogram.filters import CommandStart
+from aiogram.fsm.context import FSMContext
 
 from src.config import *
 from src.markups.main_menu import main_menu_markup
@@ -33,3 +34,9 @@ async def cmd_help(message: types.Message):
         "🔹 **Цели** — эта функция находится в разработке, но скоро позволит вам ставить финансовые цели."
     )
     await message.answer(help_text, parse_mode="Markdown")
+
+
+@router.message(F.text == config.markups.back)
+async def cmd_help(message: types.Message, state: FSMContext):
+    await state.clear()
+    await message.answer("◀ Выход назад", reply_markup=main_menu_markup)
