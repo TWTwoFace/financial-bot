@@ -2,6 +2,8 @@ from aiogram import Router, F, types
 
 from src.config import *
 from src.markups.statistics import stats_markup
+from src.repositories.statistics import StatsRepository
+from src.schemas.users import UserSchema
 
 router = Router()
 
@@ -9,8 +11,8 @@ router = Router()
 @router.message(F.text == config.markups.main_menu.statistics)
 async def show_balance_and_stats(message: types.Message):
     # TODO: получение баланса пользователя из бд
-    balance = 0
-
+    user = UserSchema(telegram_id=str(message.from_user.id))
+    balance = await StatsRepository.get_balance(user)
     await message.answer(
         f"Ваш текущий баланс: **{balance:.2f}**\n\n"
         "Выберите опцию для получения детальной статистики.",

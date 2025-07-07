@@ -5,6 +5,9 @@ from aiogram.fsm.context import FSMContext
 from src.config import *
 from src.markups.main_menu import main_menu_markup
 from src.markups.transactions import transactions_markup
+from src.repositories.transactions import TransactionsRepository
+from src.repositories.users import UsersRepository
+from src.schemas.transactions import TransactionSchema
 from src.states.transactions import AddTransaction
 
 router = Router()
@@ -50,10 +53,30 @@ async def process_amount(message: types.Message, state: FSMContext):
 @router.message(AddTransaction.category)
 async def process_category(message: types.Message, state: FSMContext):
     data = await state.get_data()
-    # TODO: Вызываем функцию для добавления транзакции в базу данных
-    await message.answer(
-        f"✅ Транзакция успешно добавлена: **{data['amount']}** в категории '{message.text}'.",
-        reply_markup=main_menu_markup,
-        parse_mode="Markdown"
+
+    user = await UsersRepository.get_user_by_telegram(str(message.from_user.id))
+
+    transaction = TransactionSchema(
+        user_id=str(user.id),
+        value=data['amount'],
+        category=message.text
     )
+
+    if data['type'] == 'expense':
+        result = await TransactionsRepository.add_expense(transaction)
+    else:
+        result = await TransactionsRepository.add_income(transaction)
+
+    if result:
+        await message.answer(
+            f"✅ Транзакция успешно добавлена: **{data['amount']}** в категории '{message.text}'.",
+            reply_markup=main_menu_markup,
+            parse_mode="Markdown"
+        )
+    else:
+        await message.answer(
+            "❌ Не удалось создать транзакцию",
+            reply_markup=main_menu_markup,
+            parse_mode="Markdown"
+        )
     await state.clear()

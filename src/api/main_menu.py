@@ -3,12 +3,19 @@ from aiogram.filters import CommandStart
 
 from src.config import *
 from src.markups.main_menu import main_menu_markup
+from src.repositories.users import UsersRepository
+from src.schemas.users import UserSchema
 
 router = Router()
 
 
 @router.message(CommandStart())
 async def cmd_start(message: types.Message):
+    user = UserSchema(telegram_id=str(message.from_user.id))
+    user_exists = await UsersRepository.is_user_exists(user)
+    print(user_exists)
+    if not user_exists:
+        await UsersRepository.add_user(user)
     await message.answer(
         "Добро пожаловать в бот 'Финансовый Ассистент'! 👋\n\n"
         "Я помогу вам отслеживать доходы и расходы, а также анализировать ваши траты.\n"
