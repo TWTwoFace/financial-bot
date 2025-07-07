@@ -62,7 +62,7 @@ class MarkupsConfig:
     statistics: StatisticsMarkupsConfig = StatisticsMarkupsConfig()
     transactions: TransactionsMarkupsConfig = TransactionsMarkupsConfig()
     notifications: NotificationsMarkupsConfig = NotificationsMarkupsConfig()
-    back: str = "◀ Назад"
+    back: str = "↪ Назад"
 
 
 class CallbacksConfig:

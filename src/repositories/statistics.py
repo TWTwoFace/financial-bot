@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from src.database import database
 from src.schemas.users import UserSchema
@@ -17,7 +18,7 @@ class StatsRepository:
             balance = record['balance']
             return balance
         except Exception as e:
-            print(e)
+            logging.error(e)
             return 0
 
     @staticmethod
@@ -36,5 +37,5 @@ class StatsRepository:
             balance = record['balance']
             return balance
         except Exception as e:
-            print(e)
+            logging.error(e)
             return 0

@@ -1,3 +1,5 @@
+import logging
+
 from src.database import database
 from src.schemas.users import UserSchema
 
@@ -9,7 +11,7 @@ class UsersRepository:
             await database.execute(f"INSERT INTO users (telegram_id) VALUES ('{user.telegram_id}')")
             return True
         except Exception as e:
-            print(e)
+            logging.error(e)
             return False
 
     @staticmethod
@@ -18,7 +20,7 @@ class UsersRepository:
             record = await database.fetchone(f"SELECT COUNT(*) > 0 as exists FROM users WHERE telegram_id='{user.telegram_id}'")
             return record["exists"]
         except Exception as e:
-            print(e)
+            logging.error(e)
             return False
 
     @staticmethod
@@ -28,4 +30,13 @@ class UsersRepository:
             user = UserSchema(**record)
             return user
         except Exception as e:
-            print(e)
+            logging.error(e)
+
+    @staticmethod
+    async def get_user(user_id) -> UserSchema:
+        try:
+            record = await database.fetchone(f"SELECT * FROM users WHERE id='{user_id}'")
+            user = UserSchema(**record)
+            return user
+        except Exception as e:
+            logging.error(e)

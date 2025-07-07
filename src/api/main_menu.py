@@ -38,4 +38,4 @@ async def cmd_help(message: types.Message):
 @router.message(F.text == config.markups.back)
 async def cmd_help(message: types.Message, state: FSMContext):
     await state.clear()
-    await message.answer("◀ Выход назад", reply_markup=main_menu_markup)
+    await message.answer("↪ Выход назад", reply_markup=main_menu_markup)

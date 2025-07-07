@@ -66,3 +66,12 @@ class NotificationsRepository:
         except Exception as e:
             logging.error(e)
             return None
+
+    @staticmethod
+    async def update_notification_date(notification: NotificationSchema, new_date: str):
+        try:
+            await database.execute(f"UPDATE notifies SET last_date='{new_date}' WHERE id='{notification.id}'")
+            return True
+        except Exception as e:
+            logging.error(e)
+            return False

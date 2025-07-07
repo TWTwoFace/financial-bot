@@ -1,33 +1,27 @@
-import threading
-import time
-import schedule
+import asyncio
+from asyncio import Task
 
-notify = True
+from dateutil.parser import parse
+from dateutil.relativedelta import relativedelta
 
+from src.bot import bot
 
-def notify_users():
-    """TODO: notify all users every hour"""
-
-
-def notify_users_job():
-    schedule.every().hour.do(notify_users)
-    while notify:
-        schedule.run_pending()
-        time.sleep(1)
+from src.repositories.notifications import NotificationsRepository
+from src.repositories.users import UsersRepository
 
 
-notify_job = threading.Thread(target=notify_users_job)
+async def notify_users():
+    notifications = await NotificationsRepository.get_fired_notifications()
+    for notification in notifications:
+        user = await UsersRepository.get_user(notification.user_id)
+        await bot.send_message(chat_id=user.telegram_id, text=f"Уведомление:\n\n"
+                                                              f"'{notification.description}' уже сегодня\n"
+                                                              f"Не забудте провести оплату.")
+        new_date = parse(notification.last_date) + relativedelta(months=1)
+        await NotificationsRepository.update_notification_date(notification, str(new_date))
 
 
-def stop_notifying():
-    global notify, notify_job
-    notify = False
-    notify_job.join()
-    print("Notify job: stopped")
-
-
-def start_notifying():
-    global notify, notify_job
-    notify = True
-    notify_job.start()
-    print("Notify job: started")
+async def notify_users_job():
+    while True:
+        await asyncio.sleep(3600)
+        await notify_users()

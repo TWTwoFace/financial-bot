@@ -1,3 +1,5 @@
+import logging
+
 from src.database import database
 from src.schemas.transactions import TransactionSchema
 
@@ -10,7 +12,7 @@ class TransactionsRepository:
                                    f"VALUES ('{expense.user_id}', '{expense.value}', '{expense.category}')")
             return True
         except Exception as e:
-            print(e)
+            logging.error(e)
             return False
 
     @staticmethod
@@ -20,5 +22,5 @@ class TransactionsRepository:
                                    f"VALUES ('{income.user_id}', '{income.value}', '{income.category}')")
             return True
         except Exception as e:
-            print(e)
+            logging.error(e)
             return True

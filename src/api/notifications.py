@@ -48,15 +48,15 @@ async def process_notification_description(message: Message, state: FSMContext):
 
 
 @router.message(AddNotification.date)
-async def process_notification_description(message: Message, state: FSMContext):
+async def process_notification_date(message: Message, state: FSMContext):
     try:
         day = int(message.text)
 
         if day > 31 or day < 1:
             raise ValueError
 
-        notification_date = datetime.datetime.today().replace(day=day)
-        if notification_date < datetime.datetime.today():
+        notification_date = datetime.datetime.today().replace(day=day).replace(hour=8).replace(minute=0).replace(second=0)
+        if notification_date <= datetime.datetime.today():
             notification_date += relativedelta(months=1)
 
         data = await state.get_data()
@@ -66,7 +66,7 @@ async def process_notification_description(message: Message, state: FSMContext):
         notification = AddNotificationSchema(
             user_id=user.id,
             description=data['description'],
-            last_date=str(notification_date.date())
+            last_date=str(notification_date)
         )
 
         res = await NotificationsRepository.add_notification(notification)

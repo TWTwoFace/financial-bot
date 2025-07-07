@@ -1,3 +1,5 @@
+import logging
+
 from asyncpg.connection import Connection, connect
 from asyncpg import Record
 import json
@@ -22,7 +24,7 @@ class Database:
             decoder=json.loads,
             schema='pg_catalog'
         )
-        print("Database: connection opened")
+        logging.info("Database: connection opened")
 
     async def execute(self, query: str) -> None:
         await self._connection.execute(query)
@@ -37,7 +39,7 @@ class Database:
 
     async def disconnect(self) -> None:
         await self._connection.close()
-        print("Database: connection closed")
+        logging.info("Database: connection closed")
 
     def __del__(self):
         self.disconnect()
