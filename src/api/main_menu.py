@@ -39,3 +39,4 @@ async def cmd_help(message: types.Message):
 async def cmd_help(message: types.Message, state: FSMContext):
     await state.clear()
     await message.answer("↪ Выход назад", reply_markup=main_menu_markup)
+    

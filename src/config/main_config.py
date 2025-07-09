@@ -57,11 +57,17 @@ class TransactionsMarkupsConfig:
     incomes: IncomesCategoryMarkupConfig = IncomesCategoryMarkupConfig()
 
 
+class GoalsMarkupConfig:
+    get_goal: str = "🎯 Моя цель"
+    set_goal: str = "✏ Установить цель"
+
+
 class MarkupsConfig:
     main_menu: MainMenuMarkupsConfig = MainMenuMarkupsConfig()
     statistics: StatisticsMarkupsConfig = StatisticsMarkupsConfig()
     transactions: TransactionsMarkupsConfig = TransactionsMarkupsConfig()
     notifications: NotificationsMarkupsConfig = NotificationsMarkupsConfig()
+    goals: GoalsMarkupConfig = GoalsMarkupConfig()
     back: str = "↪ Назад"
 
 

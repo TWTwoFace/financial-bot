@@ -2,6 +2,7 @@ import logging
 
 from src.database import database
 from src.schemas.transactions import TransactionSchema
+from src.schemas.users import UserSchema
 
 
 class TransactionsRepository:
@@ -24,3 +25,15 @@ class TransactionsRepository:
         except Exception as e:
             logging.error(e)
             return True
+
+    @staticmethod
+    async def get_user_expenses_sum(user: UserSchema, date_after: str) -> float:
+        try:
+            record = await database.fetchone(f"SELECT SUM(value) AS sum FROM expenses WHERE user_id='{user.id}' AND date > '{date_after}'")
+            expenses_sum = record['sum']
+            return expenses_sum
+        except Exception as e:
+            logging.error(e)
+            return 0
+
+
