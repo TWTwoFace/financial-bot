@@ -1,5 +1,5 @@
 from aiogram import Router, types, F
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 
 from src.config import *
@@ -24,7 +24,7 @@ async def cmd_start(message: types.Message):
     )
 
 
-@router.message(F.text == config.markups.main_menu.help)
+@router.message((F.text == config.markups.main_menu.help) | (F.text == '/help'))
 async def cmd_help(message: types.Message):
     help_text = (
         "**Как пользоваться ботом:**\n\n"
@@ -37,7 +37,6 @@ async def cmd_help(message: types.Message):
 
 
 @router.message(F.text == config.markups.back)
-async def cmd_help(message: types.Message, state: FSMContext):
+async def go_back(message: types.Message, state: FSMContext):
     await state.clear()
     await message.answer("↪ Выход назад", reply_markup=main_menu_markup)
-    
