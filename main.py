@@ -1,11 +1,11 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher
+from aiogram import Dispatcher
 
 from src.api import main_router
-from src.events import router as events_router
 from src.bot import bot
+from src.events import router as events_router
 from src.jobs.notifications import notify_users_job
 
 logging.basicConfig(level=logging.INFO)

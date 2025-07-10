@@ -36,4 +36,22 @@ class TransactionsRepository:
             logging.error(e)
             return 0
 
+    @staticmethod
+    async def get_user_expenses(user: UserSchema, date_after: str):
+        try:
+            records = await database.fetchmany(f"SELECT * FROM expenses WHERE user_id='{user.id}' AND date > '{date_after}'")
+            expenses = [TransactionSchema(**record) for record in records]
+            return expenses
+        except Exception as e:
+            logging.error(e)
+            return []
 
+    @staticmethod
+    async def get_user_incomes(user: UserSchema, date_after: str):
+        try:
+            records = await database.fetchmany(f"SELECT * FROM incomes WHERE user_id='{user.id}' AND date > '{date_after}'")
+            incomes = [TransactionSchema(**record) for record in records]
+            return incomes
+        except Exception as e:
+            logging.error(e)
+            return []

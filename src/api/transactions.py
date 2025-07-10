@@ -64,7 +64,7 @@ async def process_category(message: types.Message, state: FSMContext):
     user = await UsersRepository.get_user_by_telegram(str(message.from_user.id))
 
     transaction = TransactionSchema(
-        user_id=str(user.id),
+        user_id=user.id,
         value=data['amount'],
         category=message.text
     )

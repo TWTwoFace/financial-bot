@@ -32,3 +32,15 @@ income_category_markup = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True,
 )
+
+month_statistics_markup = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text=config.markups.month_statistics.expenses),
+            KeyboardButton(text=config.markups.month_statistics.incomes)
+        ],
+        [KeyboardButton(text=config.markups.month_statistics.categories)],
+        [KeyboardButton(text=config.markups.back)]
+    ],
+    resize_keyboard=True
+)

@@ -47,7 +47,10 @@ async def get_goal(message: Message):
         filler_text += '🟥'
         over_part -= goal.max_value / 10
 
-    filler_text = 'Диаграмма: ' + filler_text
+    if len(filler_text) > 16:
+        filler_text = filler_text[:16] + '▶'
+
+    filler_text = 'Диаграмма: \n' + filler_text
 
     about_text = f'Траты / Цель: {expenses_sum} / {goal.max_value}\n\n'
 
@@ -69,7 +72,7 @@ async def set_goal(message: Message, state: FSMContext):
 async def process_max_value(message: Message, state: FSMContext):
     try:
         amount = float(message.text)
-        if amount <= 0:
+        if amount < 5.000:
             raise ValueError
 
         user = await UsersRepository.get_user_by_telegram(str(message.from_user.id))
@@ -92,4 +95,4 @@ async def process_max_value(message: Message, state: FSMContext):
         else:
             await message.answer("Произошла ошибка при добавлении цели", reply_markup=main_menu_markup)
     except ValueError:
-        await message.answer("Введите положительное число")
+        await message.answer("Введите положительное число от 5.000 и выше")

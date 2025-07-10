@@ -18,7 +18,7 @@ class DatabaseConfig:
 
 
 class MainMenuMarkupsConfig:
-    add_expense: str = "➕ Добавить расход"
+    add_expense: str = "〽 Добавить расход"
     add_income: str = "💰 Добавить доход"
     statistics: str = "📊 Баланс & Статистика"
     goals: str = "🎯 Цели"
@@ -62,12 +62,19 @@ class GoalsMarkupConfig:
     set_goal: str = "✏ Установить цель"
 
 
+class MonthStatisticsMarkupConfig:
+    expenses: str = "📉 Расходы"
+    incomes: str = "📈 Доходы"
+    categories: str = "📝 Категории"
+
+
 class MarkupsConfig:
     main_menu: MainMenuMarkupsConfig = MainMenuMarkupsConfig()
     statistics: StatisticsMarkupsConfig = StatisticsMarkupsConfig()
     transactions: TransactionsMarkupsConfig = TransactionsMarkupsConfig()
     notifications: NotificationsMarkupsConfig = NotificationsMarkupsConfig()
     goals: GoalsMarkupConfig = GoalsMarkupConfig()
+    month_statistics: MonthStatisticsMarkupConfig = MonthStatisticsMarkupConfig()
     back: str = "↪ Назад"
 
 
